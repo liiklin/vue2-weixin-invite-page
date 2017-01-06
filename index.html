@@ -14,31 +14,7 @@
   </style>
   <title>加载中</title>
   <script>
-  $(function() {
-    var Signature = {},
-      config = {};
-    $.ajax({
-      type: 'POST',
-      url: 'http://weixin.7ipr.com/app/WxPlatform/getSignature',
-      data: {
-        // url: 'http://weixin.7ipr.com/app/weixin/qrcode/index.html'
-        url: self.location.href.split('#')[0]
-      },
-      async: false,
-      dataType: 'json',
-      success: function(rs) {
-        Signature = rs.data;
-      }
-    });
-    wx.config({
-      debug: false,
-      appId: Signature['appId'],
-      timestamp: Signature['timestamp'],
-      nonceStr: Signature['noncestr'],
-      signature: Signature['signature'],
-      jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone']
-    });
-  });
+    $(function(){var b={},a={};$.ajax({type:"POST",url:"http://weixin.7ipr.com/app/WxPlatform/getSignature",data:{url:self.location.href.split("#")[0]},async:false,dataType:"json",success:function(c){b=c.data}});wx.config({debug:false,appId:b.appId,timestamp:b.timestamp,nonceStr:b.noncestr,signature:b.signature,jsApiList:["onMenuShareTimeline","onMenuShareAppMessage","onMenuShareQQ","onMenuShareWeibo","onMenuShareQZone"]})});
   </script>
 </head>
 
