@@ -97,7 +97,7 @@ export default {
     let title = this.invite.title,
       desc = this.invite.content,
       link = `${self.location.href.split('#')[0]}#/?id=${this.userInfo.id}`,
-      imgUrl = ''
+      imgUrl = this.userInfo.wxPhoto
     wxShareConfig({title, desc, link, imgUrl})
   },
   async beforeMount() {
