@@ -14,7 +14,7 @@
   </style>
   <title>加载中</title>
   <script>
-    $(function(){var b={},a={};$.ajax({type:"POST",url:"http://weixin.7ipr.com/app/WxPlatform/getSignature",data:{url:self.location.href.split("#")[0]},async:false,dataType:"json",success:function(c){b=c.data}});wx.config({debug:false,appId:b.appId,timestamp:b.timestamp,nonceStr:b.noncestr,signature:b.signature,jsApiList:["onMenuShareTimeline","onMenuShareAppMessage","onMenuShareQQ","onMenuShareWeibo","onMenuShareQZone"]})});
+    $(function(){var c={},d={};var e=self.location.href.indexOf("localhost")>-1?"/api/WxPlatform/getSignature":"../../WxPlatform/getSignature";console.log(e);$.ajax({type:"POST",url:e,data:{url:self.location.href.split("#")[0]},async:false,dataType:"json",success:function(a){c=a.data}});wx.config({debug:false,appId:c.appId,timestamp:c.timestamp,nonceStr:c.noncestr,signature:c.signature,jsApiList:["onMenuShareTimeline","onMenuShareAppMessage","onMenuShareQQ","onMenuShareWeibo","onMenuShareQZone"]})});
   </script>
 </head>
 
