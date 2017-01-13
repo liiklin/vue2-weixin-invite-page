@@ -1,17 +1,19 @@
 <template lang="pug">
 div
-  #header
-    br
+  .bg
+    img(src="~assets/bg.png")
+  #header(v-if="pageLoading")
     div
       img(:src="userInfo.wxPhoto")
-    br
     div
       span(v-text="userInfo.name")
-  #body
+  #body(v-if="pageLoading")
     img(:src="qrcode")
   #footer
-    span 分享此页面给好友
     div
+      i.icon.iconfont.icon-zhiwen
+    div
+      span 长按识别二维码，关注微信公众号
 </template>
 
 <script>
@@ -54,6 +56,7 @@ export default {
       userInfo:{},
       // sign:{},
       invite:{},
+      pageLoading:false,
     }
   },
   computed: {
@@ -94,11 +97,13 @@ export default {
     //     'onMenuShareQZone'
     //   ]
     // })
+    document.title = `${this.userInfo.name}的邀请码`
     let title = this.invite.title,
       desc = this.invite.content,
       link = `${self.location.href.split('#')[0]}#/?id=${this.userInfo.id}`,
       imgUrl = this.userInfo.wxPhoto
     wxShareConfig({title, desc, link, imgUrl})
+    this.pageLoading = true
   },
   async beforeMount() {
 

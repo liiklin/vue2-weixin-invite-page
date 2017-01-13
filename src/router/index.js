@@ -14,14 +14,14 @@ export default new Router({
     name: 'home',
     path: '/',
     meta: {
-      title: '我的邀请码'
+      title: '加载中'
     },
     component: index
   }, {
     name: 'index',
     path: '/index',
     meta: {
-      title: '我的邀请码'
+      title: '加载中'
     },
     component: index
   }]
