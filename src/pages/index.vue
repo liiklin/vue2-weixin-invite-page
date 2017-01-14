@@ -11,7 +11,7 @@ div
     img(:src="qrcode")
   #footer
     div
-      i.icon.iconfont.icon-zhiwen
+      i.iconfont.icon-zhiwen1
     div
       span 长按识别二维码，关注微信公众号
 </template>
