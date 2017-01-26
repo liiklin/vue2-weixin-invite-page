@@ -70,26 +70,23 @@ export default {
     ])
   },
   async mounted(){
-    let self = this,
-      search = queryString.parse(location.search),
-      wxId = self.$route.query.id || search.id
+    let search = queryString.parse(location.search),
+      wxId = this.$route.query.id || search.id
 
     await Promise.all([
-      fetchInvitationConfig(self.$store),
-      fetchQrcodeTicket(self.$store, wxId),
-      fetchUserinfo(self.$store, wxId)
+      fetchInvitationConfig(this.$store),
+      fetchQrcodeTicket(this.$store, wxId),
+      fetchUserinfo(this.$store, wxId)
     ])
-    // await fetchInvitationConfig(self.$store)
-    // await fetchQrcodeTicket(self.$store, wxId)
-    // await fetchUserinfo(self.$store, wxId)
 
-    self.invite = self.$store.getters.getInvite
-    self.qrcode = self.$store.getters.getQrcode
-    self.userInfo = self.$store.getters.getUserinfo
+    this.invite = this.$store.getters.getInvite
+    this.qrcode = this.$store.getters.getQrcode
+    this.userInfo = this.$store.getters.getUserinfo
 
-    let title = `${self.userInfo.name}邀请您一起抢红包`,
+    let title = `${this.userInfo.name}邀请您一起抢红包`,
 			desc = '七弦琴祝您身体健康，阖家幸福！大年三十到元宵节，17场红包雨，记得呼朋唤友一起来抢哦...',
-			link = `weixin.7ipr.com/app/weixin/qrcode/index.html#/?id=${self.userInfo.id}`,
+			// link = `weixin.7ipr.com/app/weixin/qrcode/index.html#/?id=${this.userInfo.id}`,
+       link = `${self.location.href.split('#')[0]}#/?id=${this.userInfo.id}`,
 			imgUrl = 'http://weixin.7ipr.com/app/weixin/static/shareRedpack.jpg'
 		wxShareConfig({
 				title,
@@ -98,11 +95,11 @@ export default {
 				imgUrl
 			})
 
-    // document.title = `${self.userInfo.name}的红包邀请`
-    // let title = self.invite.title,
-    //   desc = self.invite.content,
-    //   link = `${this.location.href.split('#')[0]}#/?id=${self.userInfo.id}`,
-    //   imgUrl = self.userInfo.wxPhoto
+    document.title = `${this.userInfo.name}的红包邀请`
+    // let title = this.invite.title,
+    //   desc = this.invite.content,
+    //   link = `${self.location.href.split('#')[0]}#/?id=${this.userInfo.id}`,
+    //   imgUrl = this.userInfo.wxPhoto
     // wxShareConfig({title, desc, link, imgUrl})
     this.pageLoading = true
   },
