@@ -10,10 +10,12 @@ div
   #body(v-if="pageLoading")
     img(:src="qrcode")
   #footer
-    div
+    //-div
       i.iconfont.icon-zhiwen1
     div
-      span 长按识别二维码，关注微信公众号
+      span 长按二维码识别，关注七弦琴服务号
+      br
+      span 领取现金红包
 </template>
 
 <script>
@@ -64,45 +66,44 @@ export default {
       'getQrcode',
       'getUserinfo',
       // 'getSign',
-      // 'getInvite',
+      'getInvite',
     ])
   },
   async mounted(){
-    let search = queryString.parse(location.search),
-      wxId = this.$route.query.id || search.id
+    let self = this,
+      search = queryString.parse(location.search),
+      wxId = self.$route.query.id || search.id
 
-    // await fetchSign(this.$store)
-    await fetchInvitationConfig(this.$store)
-    await fetchQrcodeTicket(this.$store, wxId)
-    await fetchUserinfo(this.$store, wxId)
-    // this.sign = this.$store.getters.getSign
-    this.invite = this.$store.getters.getInvite
-    this.qrcode = this.$store.getters.getQrcode
-    this.userInfo = this.$store.getters.getUserinfo
+    await Promise.all([
+      fetchInvitationConfig(self.$store),
+      fetchQrcodeTicket(self.$store, wxId),
+      fetchUserinfo(self.$store, wxId)
+    ])
+    // await fetchInvitationConfig(self.$store)
+    // await fetchQrcodeTicket(self.$store, wxId)
+    // await fetchUserinfo(self.$store, wxId)
 
-    // console.log(`this.qrcode${JSON.stringify(this.qrcode)}`)
-    // console.log(`this.invite${JSON.stringify(this.invite)}`)
+    self.invite = self.$store.getters.getInvite
+    self.qrcode = self.$store.getters.getQrcode
+    self.userInfo = self.$store.getters.getUserinfo
 
-    // wx.config({
-    //   debug: true,
-    //   appId: this.sign.appId,
-    //   timestamp: this.sign.timestamp,
-    //   nonceStr: this.sign.noncestr,
-    //   signature: this.sign.signature,
-    //   jsApiList: [
-    //     'onMenuShareTimeline',
-    //     'onMenuShareAppMessage',
-    //     'onMenuShareQQ',
-    //     'onMenuShareWeibo',
-    //     'onMenuShareQZone'
-    //   ]
-    // })
-    document.title = `${this.userInfo.name}的邀请码`
-    let title = this.invite.title,
-      desc = this.invite.content,
-      link = `${self.location.href.split('#')[0]}#/?id=${this.userInfo.id}`,
-      imgUrl = this.userInfo.wxPhoto
-    wxShareConfig({title, desc, link, imgUrl})
+    let title = `${self.userInfo.name}邀请您一起抢红包`,
+			desc = '七弦琴祝您身体健康，阖家幸福！大年三十到元宵节，17场红包雨，记得呼朋唤友一起来抢哦...',
+			link = `weixin.7ipr.com/app/weixin/qrcode/index.html#/?id=${self.userInfo.id}`,
+			imgUrl = 'http://weixin.7ipr.com/app/weixin/static/shareRedpack.jpg'
+		wxShareConfig({
+				title,
+				desc,
+				link,
+				imgUrl
+			})
+
+    // document.title = `${self.userInfo.name}的红包邀请`
+    // let title = self.invite.title,
+    //   desc = self.invite.content,
+    //   link = `${this.location.href.split('#')[0]}#/?id=${self.userInfo.id}`,
+    //   imgUrl = self.userInfo.wxPhoto
+    // wxShareConfig({title, desc, link, imgUrl})
     this.pageLoading = true
   },
   async beforeMount() {
